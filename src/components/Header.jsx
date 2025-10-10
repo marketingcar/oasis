@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
     import { Link, useLocation } from 'react-router-dom';
     import { Menu, X, ChevronDown } from 'lucide-react';
     import { motion, AnimatePresence } from 'framer-motion';
@@ -61,7 +61,7 @@ import React, { useState } from 'react';
         { name: 'Shop', href: 'http://shop.oasishealthservices.com/', external: true },
       ];
 
-      const isActive = (path) => location.pathname === path;
+  const isActive = (path) => location.pathname === path;
       const isServicesActive = () => location.pathname.startsWith('/services');
       const isConditionsActive = () => location.pathname.startsWith('/conditions');
       const isAboutActive = () => location.pathname.startsWith('/about') || location.pathname.startsWith('/blog');
@@ -85,6 +85,44 @@ import React, { useState } from 'react';
         </Link>
       );
 
+      // Hover open/close timers to reduce flicker when moving between dropdowns
+      const hoverOpenTimer = useRef(null);
+      const hoverCloseTimer = useRef(null);
+      const [isTouch, setIsTouch] = useState(false);
+
+      useEffect(() => {
+        // detect coarse pointers (touch) and also listen for touchstart as a fallback
+        const mq = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(pointer: coarse)') : null;
+        if (mq && mq.matches) setIsTouch(true);
+        const onTouch = () => setIsTouch(true);
+        window.addEventListener('touchstart', onTouch, { passive: true });
+        return () => {
+          window.removeEventListener('touchstart', onTouch);
+          if (hoverOpenTimer.current) clearTimeout(hoverOpenTimer.current);
+          if (hoverCloseTimer.current) clearTimeout(hoverCloseTimer.current);
+        };
+      }, []);
+
+      const scheduleOpen = (name) => {
+        if (isTouch) return; // don't use hover timers on touch devices
+        if (hoverCloseTimer.current) {
+          clearTimeout(hoverCloseTimer.current);
+          hoverCloseTimer.current = null;
+        }
+        if (hoverOpenTimer.current) clearTimeout(hoverOpenTimer.current);
+        hoverOpenTimer.current = setTimeout(() => setOpenMenu(name), 100);
+      };
+
+      const scheduleClose = () => {
+        if (isTouch) return;
+        if (hoverOpenTimer.current) {
+          clearTimeout(hoverOpenTimer.current);
+          hoverOpenTimer.current = null;
+        }
+        if (hoverCloseTimer.current) clearTimeout(hoverCloseTimer.current);
+        hoverCloseTimer.current = setTimeout(() => setOpenMenu(null), 180);
+      };
+
       return (
         <header className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
           <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -97,16 +135,22 @@ import React, { useState } from 'react';
                 />
               </Link>
 
-              <div className="hidden lg:flex items-center space-x-1">
+              <div className="hidden lg:flex items-center space-x-1" onMouseLeave={() => scheduleClose()}>
                 {navigation.map((item) => {
                   if (item.sublinks) {
                     return (
-                      <div key={item.name}>
+                      <div key={item.name} onMouseEnter={() => scheduleOpen(item.name)} onMouseLeave={() => scheduleClose()}>
                         <DropdownMenu open={openMenu === item.name} onOpenChange={(isOpen) => setOpenMenu(isOpen ? item.name : null)}>
                           <DropdownMenuTrigger asChild>
                             <Button 
                               variant="ghost"
-                              onMouseEnter={() => setOpenMenu(item.name)} 
+                              onClick={(e) => {
+                                // On touch devices, toggle the menu on tap
+                                if (isTouch) {
+                                  e.preventDefault();
+                                  setOpenMenu(openMenu === item.name ? null : item.name);
+                                }
+                              }}
                               className={`flex items-center text-sm font-medium transition-colors hover:bg-gray-100 hover:text-[#2D6762] px-3 py-2 ${getActiveState(item) ? 'text-[#2D6762]' : 'text-[#4A5455]'}`}
                             >
                                <span className="animated-underline">{item.name}</span>
