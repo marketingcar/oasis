@@ -1,0 +1,138 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 180 100% 1%;
+    --card: 0 0% 100%;
+    --card-foreground: 180 100% 1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 180 100% 1%;
+    --primary: 176 46% 29%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 267 37% 51%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 156 18% 64%;
+    --muted-foreground: 180 8% 35%;
+    --accent: 40 81% 56%;
+    --accent-foreground: 180 100% 1%;
+    --destructive: 7 79% 64%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 156 18% 64%;
+    --input: 156 18% 64%;
+    --ring: 176 46% 29%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-white text-foreground;
+    font-family: 'Inter', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  h3 {
+    @apply text-2xl md:text-3xl font-bold;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animated-underline {
+    @apply relative inline-block;
+  }
+
+  .animated-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-[2px] bg-current origin-left scale-x-0 transition-transform duration-300 ease-out;
+  }
+
+  .animated-underline:hover::after {
+    @apply scale-x-100;
+  }
+
+  .gradient-button {
+    @apply bg-gradient-to-r from-[#624399] to-[#7355A2] text-white relative overflow-hidden;
+  }
+  
+  .gradient-button::before {
+    content: "";
+    position: absolute;
+    /* expand slightly to avoid hairline gaps at the edges while animating */
+    inset: -2px;
+    z-index: 0;
+  /* Purple fill to match site accent */
+  background-image: linear-gradient(90deg, #624399 0%, #7355A2 100%);
+    transition: transform 500ms ease-in-out;
+    transform: scaleX(0);
+    transform-origin: left center;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .gradient-button:hover::before {
+    transform: scaleX(1);
+  }
+  
+  .gradient-button > * {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Yellow variant of the dramatic gradient fill used for primary CTAs */
+  .gradient-button-yellow {
+    @apply bg-[#EFAB2E] text-white relative overflow-hidden;
+  }
+
+  .gradient-button-yellow::before {
+    content: "";
+    position: absolute;
+    /* expand slightly to avoid hairline gaps at the edges while animating */
+    inset: -2px;
+    z-index: 0;
+  /* Purple fill on hover to match primary accent */
+  background-image: linear-gradient(90deg, #624399 0%, #7355A2 100%);
+    transition: transform 500ms ease-in-out;
+    transform: scaleX(0);
+    transform-origin: left center;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .gradient-button-yellow:hover::before {
+    transform: scaleX(1);
+  }
+
+  .gradient-button-yellow > * {
+    position: relative;
+    z-index: 20;
+  }
+
+  /* Safer underline animation that doesn't change display type or add pseudo-element layout effects */
+  .animated-underline-2 {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 2px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    transition: background-size 200ms ease-out;
+  }
+
+  .animated-underline-2:hover {
+    background-size: 100% 2px;
+  }
+
+  /* Stronger sidebar hover visual: subtle gradient + shadow */
+  .sidebar-hover-strong {
+    @apply transition-all duration-200 ease-in-out;
+    background-image: linear-gradient(90deg, rgba(45,103,98,0.08), rgba(105,160,139,0.04));
+    box-shadow: 0 6px 18px rgba(17,78,72,0.06);
+  }
+}

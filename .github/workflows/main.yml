@@ -1,0 +1,62 @@
+name: Build & Deploy to FTP
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 12 * * *"   # Every day at 12:00 UTC
+  workflow_dispatch:
+  repository_dispatch:      # listens to ALL custom dispatch events
+
+concurrency:
+  group: deploy-to-ftp
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    name: Build site and deploy via FTP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Debug repository_dispatch
+        if: github.event_name == 'repository_dispatch'
+        run: |
+          echo "action=${{ github.event.action }}"
+          echo 'payload=${{ toJson(github.event.client_payload) }}'
+
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Install sharp for linux-x64
+        run: npm install --os=linux --cpu=x64 sharp
+
+      - name: Build
+        env:
+          CI: true
+        run: npm run build
+
+      - name: Verify build output exists
+        run: |
+          test -d dist && echo "dist/ found" || (echo "dist/ not found. Check your build." && exit 1)
+
+      - name: Deploy files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: dist/
+          server-dir: /public_html/
+          dangerous-clean-slate: false
