@@ -228,37 +228,7 @@ export default defineConfig({
 				'@babel/traverse',
 				'@babel/generator',
 				'@babel/types'
-			],
-			output: {
-				manualChunks: (id) => {
-					// Split vendor code
-					if (id.includes('node_modules')) {
-						// Split large libraries into separate chunks
-						if (id.includes('react') || id.includes('react-dom')) {
-							return 'vendor-react';
-						}
-						if (id.includes('framer-motion')) {
-							return 'vendor-framer';
-						}
-						if (id.includes('@radix-ui')) {
-							return 'vendor-radix';
-						}
-						if (id.includes('lucide-react')) {
-							return 'vendor-lucide';
-						}
-						return 'vendor';
-					}
-
-					// Split route components into separate chunks
-					if (id.includes('/src/pages/')) {
-						const match = id.match(/\/pages\/([^/]+)/);
-						if (match) {
-							const pageName = match[1].replace('.jsx', '').replace('.js', '');
-							return `page-${pageName}`;
-						}
-					}
-				}
-			}
+			]
 		}
 	}
 });
