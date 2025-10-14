@@ -2,6 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import GhostContentAPI from '@tryghost/content-api';
 
 const CLEAN_CONTENT_REGEX = {
   comments: /\/\*[\s\S]*?\*\/|\/\/.*$/gm,
@@ -124,13 +125,23 @@ function generateFallbackUrl(fileName) {
   return cleanName === 'app' ? '/' : `/${cleanName}`;
 }
 
-function generateLlmsTxt(pages) {
+function generateLlmsTxt(pages, blogPosts) {
   const sortedPages = pages.sort((a, b) => a.title.localeCompare(b.title));
-  const pageEntries = sortedPages.map(page => 
+  const pageEntries = sortedPages.map(page =>
     `- [${page.title}](${page.url}): ${page.description}`
   ).join('\n');
-  
-  return `## Pages\n${pageEntries}`;
+
+  let content = `## Pages\n${pageEntries}`;
+
+  if (blogPosts && blogPosts.length > 0) {
+    const sortedPosts = blogPosts.sort((a, b) => a.title.localeCompare(b.title));
+    const postEntries = sortedPosts.map(post =>
+      `- [${post.title}](${post.url}): ${post.description}`
+    ).join('\n');
+    content += `\n\n## Blog Posts\n${postEntries}`;
+  }
+
+  return content;
 }
 
 function ensureDirectoryExists(dirPath) {
@@ -149,12 +160,36 @@ function processPageFile(filePath, routes) {
   }
 }
 
-function main() {
+async function fetchBlogPosts() {
+  try {
+    const ghostAPI = new GhostContentAPI({
+      url: 'https://oasis.marketingcarcontent.com',
+      key: 'dac5098ae92e739703c202ce3e',
+      version: 'v5'
+    });
+
+    const posts = await ghostAPI.posts.browse({
+      limit: 'all',
+      fields: 'title,slug,excerpt,custom_excerpt'
+    });
+
+    return posts.map(post => ({
+      title: post.title,
+      url: `/blog/${post.slug}`,
+      description: post.excerpt || post.custom_excerpt || 'Blog post from Oasis Health Services'
+    }));
+  } catch (error) {
+    console.error('⚠️  Error fetching blog posts for llms.txt:', error.message);
+    return [];
+  }
+}
+
+async function main() {
   const pagesDir = path.join(process.cwd(), 'src', 'pages');
   const appJsxPath = path.join(process.cwd(), 'src', 'App.jsx');
 
   let pages = [];
-  
+
   if (!fs.existsSync(pagesDir)) {
     pages.push(processPageFile(appJsxPath, []));
   } else {
@@ -164,23 +199,30 @@ function main() {
     pages = reactFiles
       .map(filePath => processPageFile(filePath, routes))
       .filter(Boolean);
-    
+
     if (pages.length === 0) {
       console.error('❌ No pages with Helmet components found!');
       process.exit(1);
     }
   }
 
+  // Fetch blog posts
+  const blogPosts = await fetchBlogPosts();
+  console.log(`✓ Found ${blogPosts.length} blog posts`);
 
-  const llmsTxtContent = generateLlmsTxt(pages);
+  const llmsTxtContent = generateLlmsTxt(pages, blogPosts);
   const outputPath = path.join(process.cwd(), 'public', 'llms.txt');
-  
+
   ensureDirectoryExists(path.dirname(outputPath));
   fs.writeFileSync(outputPath, llmsTxtContent, 'utf8');
+  console.log(`✓ Generated llms.txt with ${pages.length} pages and ${blogPosts.length} blog posts`);
 }
 
 const isMainModule = import.meta.url === `file://${process.argv[1]}`;
 
 if (isMainModule) {
-  main();
+  main().catch(error => {
+    console.error('Error generating llms.txt:', error);
+    process.exit(1);
+  });
 }

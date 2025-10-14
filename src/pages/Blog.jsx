@@ -1,31 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import ghostAPI from '@/lib/ghost';
+import blogPosts from '@/data/blog-posts.json';
+import OptimizedImage from '@/components/OptimizedImage';
 
 const Blog = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const fetchedPosts = await ghostAPI.posts.browse({
-          limit: 'all',
-          include: 'tags'
-        });
-        setPosts(fetchedPosts);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, []);
+  const posts = blogPosts;
 
   return (
     <>
@@ -54,11 +36,7 @@ const Blog = () => {
 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {loading ? (
-            <div className="text-center py-20">
-              <p className="text-xl text-[#4A5455]">Loading posts...</p>
-            </div>
-          ) : posts.length === 0 ? (
+          {posts.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-xl text-[#4A5455]">No posts found.</p>
             </div>
@@ -75,10 +53,11 @@ const Blog = () => {
                 >
                   <Link to={`/blog/${post.slug}`} className="block">
                     <div className="aspect-w-16 aspect-h-9 h-64">
-                      <img
-                        className="object-cover w-full h-full"
-                        alt={post.title}
+                      <OptimizedImage
                         src={post.feature_image || 'https://images.unsplash.com/photo-1595872018818-97555653a011'}
+                        alt={post.title}
+                        className="object-cover w-full h-full"
+                        loading="lazy"
                       />
                     </div>
                   </Link>

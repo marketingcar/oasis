@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
-import ghostAPI from '@/lib/ghost';
+import OptimizedImage from '@/components/OptimizedImage';
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -12,19 +12,20 @@ const BlogPost = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchPost = async () => {
+    const loadPost = async () => {
       try {
-        const fetchedPost = await ghostAPI.posts.read({ slug }, { formats: ['html'] });
-        setPost(fetchedPost);
+        // Dynamically import the post data
+        const postData = await import(`@/data/posts/${slug}.json`);
+        setPost(postData.default);
       } catch (err) {
-        console.error('Error fetching post:', err);
+        console.error('Error loading post:', err);
         setError('Post not found');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPost();
+    loadPost();
   }, [slug]);
 
   if (loading) {
@@ -49,26 +50,44 @@ const BlogPost = () => {
     );
   }
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  };
+  const siteUrl = 'https://oasishealthservices.org';
+  const postUrl = `${siteUrl}/blog/${post.slug}`;
+  const ogImage = post.feature_image || `${siteUrl}/og-default.png`;
 
   return (
     <>
       <Helmet>
         <title>{post.title} - Oasis Health Services Blog</title>
         <meta name="description" content={post.excerpt || post.custom_excerpt} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={postUrl} />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.excerpt || post.custom_excerpt} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:site_name" content="Oasis Health Services" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={postUrl} />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.excerpt || post.custom_excerpt} />
+        <meta name="twitter:image" content={ogImage} />
+
+        {/* Canonical URL */}
+        <link rel="canonical" href={postUrl} />
       </Helmet>
 
       <div className="bg-white">
         <div className="relative">
           {post.feature_image && (
             <div className="w-full h-64 md:h-96 relative">
-              <img
-                className="w-full h-full object-cover"
-                alt={post.title}
+              <OptimizedImage
                 src={post.feature_image}
+                alt={post.title}
+                className="w-full h-full object-cover"
+                loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-br from-[#2D6762]/70 to-[#69A08B]/70"></div>
             </div>
@@ -84,7 +103,6 @@ const BlogPost = () => {
           >
             <div className="text-center text-white p-4">
               <h1 className="text-4xl md:text-6xl font-bold">{post.title}</h1>
-              <p className="text-lg md:text-xl mt-4">Posted on {formatDate(post.published_at)}</p>
             </div>
           </motion.div>
         </div>
@@ -97,13 +115,8 @@ const BlogPost = () => {
             transition={{ delay: 0.2, duration: 0.8 }}
           >
             <div
-              className="prose lg:prose-xl max-w-none text-[#4A5455] leading-relaxed"
+              className="blog-content"
               dangerouslySetInnerHTML={{ __html: post.html }}
-              style={{
-                '--tw-prose-headings': '#2D6762',
-                '--tw-prose-links': '#2D6762',
-                '--tw-prose-bold': '#2D6762',
-              }}
             />
 
             <div className="mt-12 text-center">
