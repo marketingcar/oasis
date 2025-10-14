@@ -11,9 +11,7 @@ import React from 'react';
     import StartNow from '@/pages/StartNow';
     import FAQs from '@/pages/FAQs';
     import Blog from '@/pages/Blog';
-    import Post1 from '@/pages/blog/Post1';
-    import Post2 from '@/pages/blog/Post2';
-    import Post3 from '@/pages/blog/Post3';
+    import BlogPost from '@/pages/BlogPost';
     import Policies from '@/pages/Policies';
     import TermsAndConditions from '@/pages/TermsAndConditions';
 
@@ -55,9 +53,7 @@ import React from 'react';
             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
 
             <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/understanding-anxiety" element={<Post1 />} />
-            <Route path="/blog/mindfulness-for-beginners" element={<Post2 />} />
-            <Route path="/blog/the-power-of-connection" element={<Post3 />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
 
             <Route path="/conditions" element={<Conditions />} />
             <Route path="/conditions/anxiety-disorders" element={<AnxietyDisorders />} />
