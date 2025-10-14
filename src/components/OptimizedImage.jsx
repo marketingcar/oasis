@@ -17,51 +17,41 @@ const OptimizedImage = ({
     return null;
   }
 
-  // Check if the image is from an external source
-  const isExternal = src.startsWith('http://') || src.startsWith('https://');
+  // Check if the image is local (starts with /)
+  const isLocal = src.startsWith('/');
 
-  // For external images (like Ghost featured images), try to get WebP version
-  // Many CDNs support format conversion via query parameters or URL patterns
-  const getWebPUrl = (originalUrl) => {
-    // Ghost with Cloudflare Images or similar CDN support
-    if (originalUrl.includes('cloudflare') || originalUrl.includes('imagedelivery')) {
-      return originalUrl.replace(/\.(jpg|jpeg|png)/, '.webp');
-    }
+  // For local images, we have both .jpg and .webp versions
+  if (isLocal) {
+    const webpSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+    const fallbackSrc = src;
 
-    // For other CDNs, try adding format parameter
-    if (originalUrl.includes('?')) {
-      return `${originalUrl}&format=webp`;
-    }
+    return (
+      <picture>
+        <source type="image/webp" srcSet={webpSrc} sizes={sizes} />
+        <img
+          src={fallbackSrc}
+          alt={alt}
+          className={className}
+          width={width}
+          height={height}
+          loading={loading}
+          decoding="async"
+        />
+      </picture>
+    );
+  }
 
-    // Try replacing extension
-    return originalUrl.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-  };
-
-  const webpSrc = isExternal ? getWebPUrl(src) : src.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-
-  // Determine the fallback format from the original source
-  const fallbackSrc = src;
-
+  // For external images, just use the original
   return (
-    <picture>
-      {/* WebP source for modern browsers */}
-      <source
-        type="image/webp"
-        srcSet={webpSrc}
-        sizes={sizes}
-      />
-
-      {/* Fallback to original format (PNG/JPG) */}
-      <img
-        src={fallbackSrc}
-        alt={alt}
-        className={className}
-        width={width}
-        height={height}
-        loading={loading}
-        decoding="async"
-      />
-    </picture>
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      width={width}
+      height={height}
+      loading={loading}
+      decoding="async"
+    />
   );
 };
 
