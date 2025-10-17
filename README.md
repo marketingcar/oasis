@@ -23,7 +23,7 @@ A modern, performant website for Oasis Health Services built with React, Vite, a
 - **CI/CD**: GitHub Actions
 - **Trigger**: Cloudflare Worker webhook from Ghost
 - **Hosting**: [Your hosting platform]
-- **Domain**: oasishealthservices.org
+- **Domain**: oasishealthservices.com
 
 ## 🚀 Features
 
