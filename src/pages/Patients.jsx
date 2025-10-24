@@ -147,15 +147,15 @@ const Patients = () => {
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </button>
               </SheetTrigger>
-              <SheetContent side="right" className="bg-white">
-                <SheetHeader>
+              <SheetContent side="right" className="bg-white flex flex-col">
+                <SheetHeader className="flex-shrink-0">
                   <SheetTitle className="text-2xl font-bold text-[#2D6762]">Insurance Providers We Work With</SheetTitle>
                 </SheetHeader>
-                <div className="py-4">
+                <div className="flex-1 overflow-y-auto py-4 -mr-6 pr-6">
                   <ul className="space-y-3 text-lg text-[#4A5455]">
                     {allInsuranceProviders.map((provider) => (
                       <li key={provider} className="flex items-center">
-                        <CheckCircle className="h-5 w-5 text-[#2D6762] mr-3" />
+                        <CheckCircle className="h-5 w-5 text-[#2D6762] mr-3 flex-shrink-0" />
                         {provider}
                       </li>
                     ))}

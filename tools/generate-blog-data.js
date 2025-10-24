@@ -2,10 +2,8 @@
 
 import fs from 'fs';
 import path from 'path';
-import https from 'https';
-import http from 'http';
 import GhostContentAPI from '@tryghost/content-api';
-import sharp from 'sharp';
+import { optimizeImageFromUrl } from './optimize-images.js';
 
 // Initialize Ghost API
 const ghostAPI = new GhostContentAPI({
@@ -38,53 +36,26 @@ function ensureDirectoryExists(dirPath) {
   }
 }
 
-async function downloadImage(url) {
-  return new Promise((resolve, reject) => {
-    const protocol = url.startsWith('https') ? https : http;
-    protocol.get(url, (response) => {
-      if (response.statusCode !== 200) {
-        reject(new Error(`Failed to download image: ${response.statusCode}`));
-        return;
-      }
-
-      const chunks = [];
-      response.on('data', (chunk) => chunks.push(chunk));
-      response.on('end', () => resolve(Buffer.concat(chunks)));
-      response.on('error', reject);
-    }).on('error', reject);
-  });
-}
-
 async function processAndSaveImage(imageUrl, slug, imagesDir) {
   if (!imageUrl) return null;
 
   try {
-    console.log(`  ↓ Downloading image for ${slug}...`);
-    const imageBuffer = await downloadImage(imageUrl);
+    console.log(`  ↓ Processing image for ${slug}...`);
 
-    // Get image extension from URL
-    const urlPath = new URL(imageUrl).pathname;
-    const ext = path.extname(urlPath) || '.jpg';
-    const baseName = `${slug}`;
+    const outputPath = path.join(imagesDir, slug);
 
-    // Save original (optimized PNG/JPG)
-    const originalPath = path.join(imagesDir, `${baseName}${ext}`);
-    await sharp(imageBuffer)
-      .resize(1200, 630, { fit: 'cover', position: 'center' })
-      .jpeg({ quality: 85, progressive: true })
-      .toFile(originalPath.replace(ext, '.jpg'));
+    // Optimize image with WebP and JPEG formats
+    await optimizeImageFromUrl(imageUrl, outputPath, {
+      width: 1200,
+      height: 630,
+      formats: ['webp', 'jpeg'],
+      fit: 'cover'
+    });
 
-    // Save WebP version
-    const webpPath = path.join(imagesDir, `${baseName}.webp`);
-    await sharp(imageBuffer)
-      .resize(1200, 630, { fit: 'cover', position: 'center' })
-      .webp({ quality: 85 })
-      .toFile(webpPath);
-
-    console.log(`  ✓ Saved ${baseName}.jpg and ${baseName}.webp`);
+    console.log(`  ✓ Optimized ${slug}.jpg and ${slug}.webp`);
 
     // Return local path (relative to public)
-    return `/images/blog/${baseName}.jpg`;
+    return `/images/blog/${slug}.jpg`;
   } catch (error) {
     console.error(`  ❌ Error processing image for ${slug}:`, error.message);
     return imageUrl; // Fallback to original URL

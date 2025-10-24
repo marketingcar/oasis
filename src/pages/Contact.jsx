@@ -1,43 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/components/ui/use-toast';
-import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 
 const Contact = () => {
-  const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    toast({
-      title: "Message Sent Successfully! ✅",
-      description: "We'll get back to you as soon as possible.",
-    });
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      message: '',
-    });
-  };
-
   const contactInfo = [
     {
       icon: MapPin,
@@ -140,74 +106,13 @@ const Contact = () => {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              className="h-[800px]"
             >
-              <div className="bg-gradient-to-br from-[#90AB98]/10 to-[#69A08B]/10 p-8 rounded-2xl">
-                <h2 className="text-3xl font-bold text-[#2D6762] mb-6">Send Us a Message</h2>
-                
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <Label htmlFor="name">Name *</Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="email">Email *</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="message">Message *</Label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={6}
-                      className="mt-1"
-                      placeholder="How can we help you?"
-                    />
-                  </div>
-
-                  <div className="bg-white/50 border border-[#2D6762]/20 rounded-lg p-4">
-                    <p className="text-sm text-[#4A5455]">
-                      <strong className="text-[#2D6762]">Privacy Notice:</strong> This form is secure and HIPAA-compliant. Please do not include sensitive health information in your message.
-                    </p>
-                  </div>
-
-                  <Button type="submit" size="lg" className="w-full bg-[#2D6762] hover:bg-[#2D6762]/90 text-white">
-                    Send Message
-                    <Send className="ml-2 h-5 w-5" />
-                  </Button>
-                </form>
-              </div>
+              <iframe
+                src="https://vpm-portal.web.app/patients/contact-us"
+                className="w-full h-full rounded-2xl border-0"
+                title="Contact Form"
+              />
             </motion.div>
           </div>
         </div>

@@ -70,7 +70,7 @@ const MedicationManagement = () => {
             <p>This service focuses on treating depression, anxiety disorders, the bipolar spectrum, and related conditions. We conduct baseline and periodic labs/vitals as indicated, perform suicide risk checks during medication changes, and carefully review drug-drug interactions at each visit to ensure your safety.</p>
         </DetailSection>
 
-        <DetailSection title="When We Refer for Specialized Care">
+        <DetailSection title="When We Recommend for Specialized Care">
           <p>For certain conditions, we may recommend one of our other specialized services:</p>
           <div className="grid md:grid-cols-3 gap-6 mt-6">
             {referrals.map((item, index) => (

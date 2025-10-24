@@ -10,13 +10,13 @@ const About = () => {
     {
       name: 'Olajumoke Akinyele, DNP, PMHNP-BC, FNP-C',
       title: 'Board-Certified Nurse Practitioner',
-      bio: 'Board-certified nurse practitioner with 19+ years of experience, dually certified in family practice and psychiatric mental health. Specializes in integrated care for children and adults.',
+      bio: 'Board-certified nurse practitioner with 20+ years of experience, dually certified in family practice and psychiatric mental health. Specializes in integrated care for children and adults.',
       img: 'https://horizons-cdn.hostinger.com/0bf89f29-e8e8-4300-9c8a-627c22f53622/80ad63f8667e4b31d0ddc190e412e19f.png',
     },
     {
       name: 'Ann-Marie Taylor',
       title: 'Clinical Counselor',
-      bio: 'Clinical counselor offering in-person and online therapy for anxiety, depression, trauma, and life transitions. Focuses on equipping clients with tools to reach their fullest potential.',
+      bio: 'Clinical counselor offering online therapy for anxiety, depression, trauma, and life transitions. Focuses on equipping clients with tools to reach their fullest potential. This provider only offers online therapy for patients in Georgia.',
       img: 'https://horizons-cdn.hostinger.com/0bf89f29-e8e8-4300-9c8a-627c22f53622/7de41d1a354e2c40d55bfdb7b2bd7de0.png',
     },
   ];

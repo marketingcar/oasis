@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import GhostContentAPI from '@tryghost/content-api';
 
-const SITE_URL = 'https://oasishealthservices.org';
+const SITE_URL = 'https://oasishealthservices.com';
 
 // Initialize Ghost API
 const ghostAPI = new GhostContentAPI({

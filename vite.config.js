@@ -226,13 +226,48 @@ export default defineConfig({
 		include: ['react', 'react-dom', 'framer-motion']
 	},
 	build: {
+		// Optimize output
+		minify: 'terser',
+		terserOptions: {
+			compress: {
+				drop_console: true,
+				drop_debugger: true
+			}
+		},
+		// Output clean URLs and separate chunks
 		rollupOptions: {
 			external: [
 				'@babel/parser',
 				'@babel/traverse',
 				'@babel/generator',
 				'@babel/types'
-			]
-		}
+			],
+			output: {
+				// Better code splitting
+				manualChunks: {
+					'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+					'ui-vendor': ['framer-motion', 'lucide-react'],
+				},
+				// Clean asset names
+				assetFileNames: (assetInfo) => {
+					const info = assetInfo.name.split('.');
+					let extType = info[info.length - 1];
+					if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+						extType = 'images';
+					} else if (/woff|woff2|eot|ttf|otf/i.test(extType)) {
+						extType = 'fonts';
+					}
+					return `assets/${extType}/[name]-[hash][extname]`;
+				},
+				chunkFileNames: 'assets/js/[name]-[hash].js',
+				entryFileNames: 'assets/js/[name]-[hash].js',
+			}
+		},
+		// Chunk size warnings
+		chunkSizeWarningLimit: 1000,
+		// Source maps for debugging (can be disabled in production)
+		sourcemap: false,
+		// CSS code splitting
+		cssCodeSplit: true,
 	}
 });

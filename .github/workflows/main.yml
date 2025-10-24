@@ -42,18 +42,45 @@ jobs:
       - name: Ensure sharp for linux-x64
         run: npm install --os=linux --cpu=x64 sharp
 
-      - name: Build
+      - name: Build with SEO optimizations
         env:
           CI: true
+          NODE_ENV: production
         run: npm run build
 
-      - name: Verify build output exists
+      - name: Verify build output
         run: |
           if [ -d dist ]; then
             echo "✅ dist/ found"
+            echo "📊 Build statistics:"
+            du -sh dist
+            echo "📄 Files generated:"
+            find dist -type f -name "*.html" | wc -l | xargs echo "  HTML files:"
+            find dist -type f -name "sitemap.xml" | wc -l | xargs echo "  Sitemap:"
+            find dist -type f -name "robots.txt" | wc -l | xargs echo "  Robots.txt:"
+            find dist -type f -name "llms.txt" | wc -l | xargs echo "  LLMs.txt:"
           else
             echo "❌ dist/ not found. Check your build script or output path."
             exit 1
+          fi
+
+      - name: Validate SEO files
+        run: |
+          echo "🔍 Validating SEO files..."
+          if [ -f dist/sitemap.xml ]; then
+            echo "✅ sitemap.xml exists"
+          else
+            echo "⚠️  sitemap.xml missing"
+          fi
+          if [ -f dist/robots.txt ]; then
+            echo "✅ robots.txt exists"
+          else
+            echo "⚠️  robots.txt missing"
+          fi
+          if [ -f dist/llms.txt ]; then
+            echo "✅ llms.txt exists"
+          else
+            echo "⚠️  llms.txt missing"
           fi
 
       - name: Deploy files via FTP

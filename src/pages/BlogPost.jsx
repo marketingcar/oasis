@@ -50,7 +50,7 @@ const BlogPost = () => {
     );
   }
 
-  const siteUrl = 'https://oasishealthservices.org';
+  const siteUrl = 'https://oasishealthservices.com';
   const postUrl = `${siteUrl}/blog/${post.slug}`;
   const ogImage = post.feature_image || `${siteUrl}/og-default.png`;
 

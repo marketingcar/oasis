@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Heart, Brain, Users, Shield, CheckCircle, ArrowRight } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import SEO, { getOrganizationSchema } from '@/components/SEO';
 const Home = () => {
   const heroImages = [{
     src: 'https://horizons-cdn.hostinger.com/0bf89f29-e8e8-4300-9c8a-627c22f53622/72a4f4151125d938323fb2854f493120.jpg',
@@ -83,10 +83,13 @@ const Home = () => {
     description: 'Begin your healing journey'
   }];
   return <>
-      <Helmet>
-        <title>Oasis Health Services - Convenient Virtual Mental Health Care</title>
-        <meta name="description" content="Expert mental health care tailored for you, combining psychiatric and primary care for whole-person healing. Covered by insurance." />
-      </Helmet>
+      <SEO
+        title="Oasis Health Services - Virtual Mental Health Care"
+        description="Expert mental health care tailored for you, combining psychiatric and primary care for whole-person healing. Covered by insurance."
+        keywords="mental health, psychiatry, therapy, telehealth, medication management, Georgia"
+        url="/"
+        schema={getOrganizationSchema()}
+      />
 
       <section className="relative text-white pt-24 pb-32 lg:pt-32 lg:pb-40 overflow-hidden bg-gradient-to-br from-[#2d6762] to-[#1a3a37]">
          <div className="absolute inset-0 z-0">
