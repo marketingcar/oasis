@@ -90,5 +90,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: dist/
-          server-dir: /public_html/
+          server-dir: /home/u840967366/domains/dev.oasishealthservices.com/public_html/
+
           dangerous-clean-slate: false
