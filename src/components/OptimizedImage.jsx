@@ -2,7 +2,7 @@ import React from 'react';
 
 /**
  * OptimizedImage Component
- * Automatically serves WebP/AVIF with fallback to JPEG/PNG
+ * Automatically serves WebP with fallback to JPEG/PNG
  * Supports responsive images and lazy loading
  */
 const OptimizedImage = ({
@@ -45,27 +45,10 @@ const OptimizedImage = ({
     return originalSrc.replace(ext[0], '.webp');
   };
 
-  // Generate AVIF source (if available)
-  const getAvifSrc = (originalSrc) => {
-    const ext = originalSrc.match(/\.(jpg|jpeg|png)$/i);
-    if (!ext) return null;
-    return originalSrc.replace(ext[0], '.avif');
-  };
-
   const webpSrc = getWebPSrc(src);
-  const avifSrc = getAvifSrc(src);
 
   return (
     <picture className={className}>
-      {/* AVIF - Best compression, newest format */}
-      {avifSrc && (
-        <source
-          type="image/avif"
-          srcSet={avifSrc}
-          sizes={sizes}
-        />
-      )}
-
       {/* WebP - Modern format with great compression */}
       {webpSrc && (
         <source
@@ -124,17 +107,9 @@ export const ResponsiveImage = ({
   };
 
   const webpSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-  const avifSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.avif');
 
   return (
     <picture className={className}>
-      {avifSrc && (
-        <source
-          type="image/avif"
-          srcSet={generateSrcSet(avifSrc)}
-          sizes={sizes}
-        />
-      )}
       {webpSrc && (
         <source
           type="image/webp"
