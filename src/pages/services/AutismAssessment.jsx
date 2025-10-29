@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import SEO, { getServiceSchema, getBreadcrumbSchema } from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -50,6 +50,22 @@ const AutismAssessment = () => {
       navTitle="Our Services"
       pageType="services"
     >
+      <SEO
+        title="Autism Assessment & Management"
+        description="Comprehensive autism spectrum disorder evaluation for children, teens, and adults. Professional ASD assessment with detailed reports and accommodation letters."
+        url="/services/autism-assessment"
+        schema={[
+          getServiceSchema(
+            'Autism Assessment & Management',
+            'Our goal is to confirm or rule out autism spectrum disorder (ASD), map an individual\'s unique strengths and support needs, and identify any co-occurring conditions. We then translate these findings into a practical, actionable plan for home, school, work, and clinical care.'
+          ),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Services', url: '/services' },
+            { name: 'Autism Assessment', url: '/services/autism-assessment' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Purpose">
           <p>Our goal is to confirm or rule out autism spectrum disorder (ASD), map an individual's unique strengths and support needs, and identify any co-occurring conditions. We then translate these findings into a practical, actionable plan for home, school, work, and clinical care.</p>

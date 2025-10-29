@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, ArrowRight } from 'lucide-react';
 import ServiceDetailLayout from '@/components/ServiceDetailLayout';
+import OptimizedImage from '@/components/OptimizedImage';
 
 const Depression = () => {
   const benefits = [
@@ -71,7 +72,7 @@ const Depression = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <img alt="Person recovering from depression with renewed energy" src="https://images.unsplash.com/photo-1691649252065-1add93155f24" />
+            <OptimizedImage alt="Person recovering from depression with renewed energy" src="https://images.unsplash.com/photo-1691649252065-1add93155f24" loading="lazy" />
           </motion.div>
         </div>
       </section>

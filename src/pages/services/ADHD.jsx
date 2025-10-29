@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, ArrowRight } from 'lucide-react';
 import ServiceDetailLayout from '@/components/ServiceDetailLayout';
+import OptimizedImage from '@/components/OptimizedImage';
 
 const ADHD = () => {
   const benefits = [
@@ -71,7 +72,7 @@ const ADHD = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <img alt="Person with ADHD successfully focusing on work" src="https://images.unsplash.com/photo-1620206299315-db98c1578420" />
+            <OptimizedImage alt="Person with ADHD successfully focusing on work" src="https://images.unsplash.com/photo-1620206299315-db98c1578420" loading="lazy" />
           </motion.div>
         </div>
       </section>

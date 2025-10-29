@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import SEO, { getServiceSchema, getBreadcrumbSchema } from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -50,6 +50,22 @@ const MedicationManagement = () => {
       navTitle="Our Services"
       pageType="services"
     >
+      <SEO
+        title="Medication Management"
+        description="Personalized psychiatric medication management for depression, anxiety, ADHD, and mood disorders. Evidence-based treatment with regular monitoring and safety protocols."
+        url="/services/medication-management"
+        schema={[
+          getServiceSchema(
+            'Medication Management',
+            'Our providers offer personalized psychiatric medication management for a range of conditions including depression, anxiety, ADHD, and mood disorders. Treatment decisions are always based on a comprehensive evaluation and shared decision-making, with regular follow-up to ensure safety and effectiveness.'
+          ),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Services', url: '/services' },
+            { name: 'Medication Management', url: '/services/medication-management' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Our Approach">
           <p>Our providers offer personalized psychiatric medication management for a range of conditions including depression, anxiety, ADHD, and mood disorders. Treatment decisions are always based on a comprehensive evaluation and shared decision-making, with regular follow-up to ensure safety and effectiveness. When appropriate, this may include the careful use of controlled medications, always in accordance with state and federal guidelines.</p>

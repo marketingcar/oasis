@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import SEO, { getServiceSchema, getBreadcrumbSchema } from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -52,6 +52,22 @@ const SudTreatment = () => {
       navTitle="Our Services"
       pageType="services"
     >
+      <SEO
+        title="Substance Use Disorder Treatment"
+        description="Integrated harm-reduction treatment for alcohol, opioid, nicotine, and stimulant use disorders. Dual diagnosis care with medication and therapy support."
+        url="/services/substance-use-disorder-treatment"
+        schema={[
+          getServiceSchema(
+            'Substance Use Disorder (SUD) Treatment',
+            'We provide integrated, harm-reduction oriented care for substance use disorders. Our approach combines therapy and recovery supports with careful monitoring. We handle crisis and withdrawal protocols according to clinical need and arrange for higher levels of care when required, ensuring you have a safe and supportive path to recovery.'
+          ),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Services', url: '/services' },
+            { name: 'SUD Treatment', url: '/services/substance-use-disorder-treatment' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Our Approach">
           <p>We provide integrated, harm-reduction oriented care for substance use disorders. Our approach combines therapy and recovery supports with careful monitoring. We handle crisis and withdrawal protocols according to clinical need and arrange for higher levels of care when required, ensuring you have a safe and supportive path to recovery.</p>

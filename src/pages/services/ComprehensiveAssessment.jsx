@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import SEO, { getServiceSchema, getBreadcrumbSchema } from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -62,6 +62,22 @@ const ComprehensiveAssessment = () => {
       navTitle="Our Services"
       pageType="services"
     >
+      <SEO
+        title="Comprehensive Psychiatric Assessment"
+        description="Professional psychiatric evaluation for mood, anxiety, trauma, ADHD, and other mental health concerns. Get a thorough assessment and personalized treatment plan."
+        url="/services/comprehensive-assessment"
+        schema={[
+          getServiceSchema(
+            'Comprehensive Psychiatric Assessment & Diagnosis',
+            'Our comprehensive assessment is the crucial first step in your mental wellness journey. This thorough initial appointment is designed to deeply understand your symptoms, history, risks, strengths, and goals. The outcome is a collaborative working diagnosis and a personalized initial care plan tailored just for you.'
+          ),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Services', url: '/services' },
+            { name: 'Comprehensive Assessment', url: '/services/comprehensive-assessment' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Purpose">
           <p>Our comprehensive assessment is the crucial first step in your mental wellness journey. This thorough initial appointment is designed to deeply understand your symptoms, history, risks, strengths, and goals. The outcome is a collaborative working diagnosis and a personalized initial care plan tailored just for you.</p>

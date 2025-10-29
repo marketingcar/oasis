@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import SEO, { getServiceSchema, getBreadcrumbSchema } from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -53,6 +53,22 @@ const TherapyCounseling = () => {
       navTitle="Our Services"
       pageType="services"
     >
+      <SEO
+        title="Therapy & Counseling"
+        description="Evidence-based talk therapy including CBT, ACT, trauma-focused care, and motivational interviewing. In-person and telehealth options available."
+        url="/services/therapy-and-counseling"
+        schema={[
+          getServiceSchema(
+            'Therapy & Counseling',
+            'We offer evidence-based talk therapies designed to reduce symptoms, build practical skills, and improve your daily functioning. Therapy can be a stand-alone treatment or used in combination with medication management to create a comprehensive care plan.'
+          ),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Services', url: '/services' },
+            { name: 'Therapy & Counseling', url: '/services/therapy-and-counseling' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Purpose">
           <p>We offer evidence-based talk therapies designed to reduce symptoms, build practical skills, and improve your daily functioning. Therapy can be a stand-alone treatment or used in combination with medication management to create a comprehensive care plan.</p>

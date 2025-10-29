@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import SEO, { getServiceSchema, getBreadcrumbSchema } from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -50,6 +50,22 @@ const AdhdTesting = () => {
       navTitle="Our Services"
       pageType="services"
     >
+      <SEO
+        title="ADHD Testing & Management"
+        description="Comprehensive ADHD evaluation and treatment for adults and adolescents. Expert testing, medication management, therapy, and skills coaching."
+        url="/services/adhd-testing-and-management"
+        schema={[
+          getServiceSchema(
+            'ADHD Testing & Management',
+            'This specialized service is designed to thoroughly evaluate concerns related to attention, impulsivity, and executive function. Our goal is to confirm or rule out ADHD and build a clear, actionable plan to improve symptom control and daily performance at school, work, and home.'
+          ),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Services', url: '/services' },
+            { name: 'ADHD Testing & Management', url: '/services/adhd-testing-and-management' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Purpose">
           <p>This specialized service is designed to thoroughly evaluate concerns related to attention, impulsivity, and executive function. Our goal is to confirm or rule out ADHD and build a clear, actionable plan to improve symptom control and daily performance at school, work, and home.</p>

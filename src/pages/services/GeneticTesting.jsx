@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import SEO, { getServiceSchema, getBreadcrumbSchema } from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -50,6 +50,22 @@ const GeneticTesting = () => {
       navTitle="Our Services"
       pageType="services"
     >
+      <SEO
+        title="Pharmacogenomic Genetic Testing"
+        description="Personalized medication management with pharmacogenomic (PGx) testing. Optimize psychiatric medication choices based on your unique genetic profile."
+        url="/services/genetic-testing"
+        schema={[
+          getServiceSchema(
+            'Pharmacogenomic Genetic Testing (PGx)',
+            'We use validated pharmacogenomic (PGx) insights to help inform safer and more effective medication choices. By understanding your unique genetic profile, we can personalize your care plan, potentially reducing trial-and-error with medications.'
+          ),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Services', url: '/services' },
+            { name: 'Genetic Testing', url: '/services/genetic-testing' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Purpose">
           <p>We use validated pharmacogenomic (PGx) insights to help inform safer and more effective medication choices. By understanding your unique genetic profile, we can personalize your care plan, potentially reducing trial-and-error with medications.</p>

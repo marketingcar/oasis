@@ -24,6 +24,9 @@ const EXTRACTION_REGEX = {
   element: /element=\{<(\w+)[^}]*\/?\s*>\}/,
   helmet: /<Helmet[^>]*?>([\s\S]*?)<\/Helmet>/i,
   helmetTest: /<Helmet[\s\S]*?<\/Helmet>/i,
+  seo: /<SEO\s+([^>]*?)(?:\/?>|>[\s\S]*?<\/SEO>)/i,
+  seoTest: /<SEO[\s\S]*?(?:\/?>|<\/SEO>)/i,
+  seoProp: /(\w+)=\{([^}]*)\}|(\w+)="([^"]*)"/g,
   title: /<title[^>]*?>\s*(.*?)\s*<\/title>/i,
   description: /<meta\s+name=["']description["']\s+content=["'](.*?)["']/i
 };
@@ -83,36 +86,72 @@ function extractRoutes(appJsxPath) {
 }
 
 function findReactFiles(dir) {
-  return fs.readdirSync(dir)
-    .map(item => path.join(dir, item))
-    .filter(filePath => {
-      const stat = fs.statSync(filePath);
-      return stat.isFile() && (filePath.endsWith('.jsx') || filePath.endsWith('.js'));
-    });
+  let files = [];
+  const items = fs.readdirSync(dir);
+
+  for (const item of items) {
+    const fullPath = path.join(dir, item);
+    const stat = fs.statSync(fullPath);
+
+    if (stat.isDirectory()) {
+      // Recursively search subdirectories
+      files = files.concat(findReactFiles(fullPath));
+    } else if (stat.isFile() && (fullPath.endsWith('.jsx') || fullPath.endsWith('.js'))) {
+      files.push(fullPath);
+    }
+  }
+
+  return files;
 }
 
 function extractHelmetData(content, filePath, routes) {
   const cleanedContent = cleanContent(content);
-  
-  if (!EXTRACTION_REGEX.helmetTest.test(cleanedContent)) {
+
+  let title, description;
+
+  // Check for SEO component first
+  if (EXTRACTION_REGEX.seoTest.test(cleanedContent)) {
+    const seoMatch = content.match(EXTRACTION_REGEX.seo);
+    if (seoMatch) {
+      const seoProps = seoMatch[1];
+
+      // Extract title prop
+      const titlePropMatch = seoProps.match(/title=["']([^"']*)["']/) ||
+                            seoProps.match(/title=\{["']([^"']*)["']\}/) ||
+                            seoProps.match(/title=\{([^}]*)\}/);
+      if (titlePropMatch) {
+        title = cleanText(titlePropMatch[1]);
+      }
+
+      // Extract description prop
+      const descPropMatch = seoProps.match(/description=["']([^"']*)["']/) ||
+                           seoProps.match(/description=\{["']([^"']*)["']\}/) ||
+                           seoProps.match(/description=\{([^}]*)\}/);
+      if (descPropMatch) {
+        description = cleanText(descPropMatch[1]);
+      }
+    }
+  }
+  // Fall back to Helmet component
+  else if (EXTRACTION_REGEX.helmetTest.test(cleanedContent)) {
+    const helmetMatch = content.match(EXTRACTION_REGEX.helmet);
+    if (helmetMatch) {
+      const helmetContent = helmetMatch[1];
+      const titleMatch = helmetContent.match(EXTRACTION_REGEX.title);
+      const descMatch = helmetContent.match(EXTRACTION_REGEX.description);
+
+      title = cleanText(titleMatch?.[1]);
+      description = cleanText(descMatch?.[1]);
+    }
+  } else {
     return null;
   }
-  
-  const helmetMatch = content.match(EXTRACTION_REGEX.helmet);
-  if (!helmetMatch) return null;
-  
-  const helmetContent = helmetMatch[1];
-  const titleMatch = helmetContent.match(EXTRACTION_REGEX.title);
-  const descMatch = helmetContent.match(EXTRACTION_REGEX.description);
-  
-  const title = cleanText(titleMatch?.[1]);
-  const description = cleanText(descMatch?.[1]);
-  
+
   const fileName = path.basename(filePath, path.extname(filePath));
-  const url = routes.length && routes.has(fileName) 
-    ? routes.get(fileName) 
+  const url = routes.length && routes.has(fileName)
+    ? routes.get(fileName)
     : generateFallbackUrl(fileName);
-  
+
   return {
     url,
     title: title || 'Untitled Page',

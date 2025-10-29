@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import SEO, { getServiceSchema, getBreadcrumbSchema } from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -50,6 +50,22 @@ const Telehealth = () => {
       navTitle="Our Services"
       pageType="services"
     >
+      <SEO
+        title="Telehealth & Telepsychiatry"
+        description="Secure virtual psychiatric care with HIPAA-compliant platform. Access mental health services from anywhere with state-licensed providers."
+        url="/services/telehealth"
+        schema={[
+          getServiceSchema(
+            'Telehealth & Telepsychiatry Services',
+            'We provide secure virtual psychiatric care that meets the same high clinical standards as our in-person services. Our HIPAA-compliant platform allows for flexible access, faster follow-ups, and tighter, data-driven monitoring of your progress.'
+          ),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Services', url: '/services' },
+            { name: 'Telehealth & Telepsychiatry', url: '/services/telehealth' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="What It Is">
           <p>We provide secure virtual psychiatric care that meets the same high clinical standards as our in-person services. Our HIPAA-compliant platform allows for flexible access, faster follow-ups, and tighter, data-driven monitoring of your progress. All care is provided by state-licensed providers.</p>

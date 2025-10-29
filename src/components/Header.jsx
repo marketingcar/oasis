@@ -15,6 +15,7 @@ import React, { useState, useRef, useEffect } from 'react';
       AccordionItem,
       AccordionTrigger,
     } from "@/components/ui/accordion"
+    import OptimizedImage from '@/components/OptimizedImage';
 
     const Header = () => {
       const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -128,10 +129,12 @@ import React, { useState, useRef, useEffect } from 'react';
           <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-20">
               <Link to="/" className="flex items-center">
-                <img 
-                  src="https://horizons-cdn.hostinger.com/0bf89f29-e8e8-4300-9c8a-627c22f53622/2245c4f857f206a62cf1e8d030229d5c.png" 
-                  alt="Oasis Health Services Logo" 
+                <OptimizedImage
+                  src="https://horizons-cdn.hostinger.com/0bf89f29-e8e8-4300-9c8a-627c22f53622/2245c4f857f206a62cf1e8d030229d5c.png"
+                  alt="Oasis Health Services Logo"
                   className="h-12 w-auto"
+                  priority={true}
+                  loading="eager"
                 />
               </Link>
 

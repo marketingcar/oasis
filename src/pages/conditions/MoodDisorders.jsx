@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { conditionsLinks } from '@/lib/navLinks';
+import SEO, { getBreadcrumbSchema } from '@/components/SEO';
 
 const DetailSection = ({ title, children }) => (
   <div className="mb-10">
@@ -44,6 +45,28 @@ const MoodDisorders = () => {
       navTitle="Conditions We Treat"
       pageType="conditions"
     >
+      <SEO
+        title="Mood Disorders Treatment"
+        description="Expert treatment for mood disorders including major depressive disorder, bipolar disorder, and dysthymia. Professional psychiatric care and therapy."
+        url="/conditions/mood-disorders"
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'MedicalCondition',
+            name: 'Mood Disorders',
+            description: 'Expert treatment for mood disorders including major depressive disorder, bipolar disorder, and dysthymia.',
+            possibleTreatment: {
+              '@type': 'MedicalTherapy',
+              name: 'Psychiatric Treatment and Therapy'
+            }
+          },
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Conditions', url: '/conditions' },
+            { name: 'Mood Disorders', url: '/conditions/mood-disorders' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Overview">
           <p>Disorders characterized by disturbances in mood intensity, duration, or cycling that significantly impact daily functioning. These conditions go beyond typical sadness or happiness and involve persistent, debilitating changes in emotional state.</p>

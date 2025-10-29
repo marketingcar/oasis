@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import OptimizedImage from '@/components/OptimizedImage';
+import SEO, { getArticleSchema } from '@/components/SEO';
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -50,34 +50,22 @@ const BlogPost = () => {
     );
   }
 
-  const siteUrl = 'https://oasishealthservices.com';
-  const postUrl = `${siteUrl}/blog/${post.slug}`;
-  const ogImage = post.feature_image || `${siteUrl}/og-default.png`;
-
   return (
     <>
-      <Helmet>
-        <title>{post.title} - Oasis Health Services Blog</title>
-        <meta name="description" content={post.excerpt || post.custom_excerpt} />
-
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content={postUrl} />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.excerpt || post.custom_excerpt} />
-        <meta property="og:image" content={ogImage} />
-        <meta property="og:site_name" content="Oasis Health Services" />
-
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content={postUrl} />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.excerpt || post.custom_excerpt} />
-        <meta name="twitter:image" content={ogImage} />
-
-        {/* Canonical URL */}
-        <link rel="canonical" href={postUrl} />
-      </Helmet>
+      <SEO
+        title={post.title}
+        description={post.excerpt || post.custom_excerpt}
+        url={`/blog/${post.slug}`}
+        image={post.feature_image}
+        type="article"
+        schema={getArticleSchema({
+          title: post.title,
+          description: post.excerpt || post.custom_excerpt,
+          image: post.feature_image,
+          publishedAt: post.published_at,
+          updatedAt: post.updated_at
+        })}
+      />
 
       <div className="bg-white">
         <div className="relative">

@@ -56,7 +56,7 @@ const OptimizedImage = ({
   const avifSrc = getAvifSrc(src);
 
   return (
-    <picture>
+    <picture className={className}>
       {/* AVIF - Best compression, newest format */}
       {avifSrc && (
         <source
@@ -127,7 +127,7 @@ export const ResponsiveImage = ({
   const avifSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.avif');
 
   return (
-    <picture>
+    <picture className={className}>
       {avifSrc && (
         <source
           type="image/avif"

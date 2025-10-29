@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { conditionsLinks } from '@/lib/navLinks';
+import SEO, { getBreadcrumbSchema } from '@/components/SEO';
 
 const DetailSection = ({ title, children }) => (
   <div className="mb-10">
@@ -45,6 +46,28 @@ const TraumaStressDisorders = () => {
       navTitle="Conditions We Treat"
       pageType="conditions"
     >
+      <SEO
+        title="PTSD & Trauma Treatment"
+        description="Trauma-informed care for PTSD, acute stress, and adjustment disorders. Specialized therapy and medication management for healing."
+        url="/conditions/trauma-stress-disorders"
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'MedicalCondition',
+            name: 'Trauma & Stress-Related Disorders',
+            description: 'Trauma-informed care for PTSD, acute stress, and adjustment disorders with specialized therapy and support.',
+            possibleTreatment: {
+              '@type': 'MedicalTherapy',
+              name: 'Psychiatric Treatment and Therapy'
+            }
+          },
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Conditions', url: '/conditions' },
+            { name: 'Trauma & Stress Disorders', url: '/conditions/trauma-stress-disorders' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Overview">
           <p>These disorders develop following exposure to a traumatic or significantly stressful event. They involve a psychological response characterized by intrusive memories, avoidance of reminders, negative changes in mood and thinking, and significant alterations in arousal and reactivity.</p>

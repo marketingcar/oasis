@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
+import OptimizedImage from '@/components/OptimizedImage';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const locations = ['Arizona', 'California', 'Colorado', 'Florida', 'Georgia', 'Maryland', 'Massachusetts', 'New York', 'New Jersey', 'Oregon', 'Texas', 'Washington'];
@@ -51,7 +52,12 @@ const Footer = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="md:col-span-2 lg:col-span-1">
                 <Link to="/" className="inline-block mb-4">
-                  <img src="https://horizons-cdn.hostinger.com/0bf89f29-e8e8-4300-9c8a-627c22f53622/white-logo-kDbrD.png" alt="Oasis Health Services Logo" className="h-12 w-auto" />
+                  <OptimizedImage
+                    src="https://horizons-cdn.hostinger.com/0bf89f29-e8e8-4300-9c8a-627c22f53622/white-logo-kDbrD.png"
+                    alt="Oasis Health Services Logo"
+                    className="h-12 w-auto"
+                    loading="lazy"
+                  />
                 </Link>
                 <p className="text-white/70 text-sm">
                   Your trusted partner in mental wellness. We provide compassionate, integrative care to help you find balance and hope.

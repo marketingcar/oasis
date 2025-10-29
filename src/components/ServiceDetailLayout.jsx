@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import OptimizedImage from '@/components/OptimizedImage';
 
 const ServiceDetailLayout = ({ title, subtitle, imageUrl, children }) => {
   return (
@@ -15,7 +16,13 @@ const ServiceDetailLayout = ({ title, subtitle, imageUrl, children }) => {
         <header className="relative bg-gradient-to-t from-[#1a3a37] to-[#2D6762] text-white py-24 md:py-32 overflow-hidden">
           {imageUrl && (
             <div className="absolute inset-0 z-0 opacity-20">
-              <img src={imageUrl} alt="" className="w-full h-full object-cover" />
+              <OptimizedImage
+                src={imageUrl}
+                alt={`${title} service background`}
+                className="w-full h-full object-cover"
+                priority={true}
+                loading="eager"
+              />
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-[#1a3a37] via-[#2d676280] to-transparent z-10" />

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import SEO, { getServiceSchema, getBreadcrumbSchema } from '@/components/SEO';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -36,6 +36,22 @@ const Spravato = () => {
       navTitle="Our Services"
       pageType="services"
     >
+      <SEO
+        title="Spravato (Esketamine) Therapy"
+        description="Breakthrough treatment for treatment-resistant depression. FDA-approved Spravato therapy administered in REMS-certified clinic with comprehensive monitoring."
+        url="/services/spravato"
+        schema={[
+          getServiceSchema(
+            'Spravato® (Esketamine) Therapy',
+            'We offer in-office Spravato® (esketamine) treatment for adults with treatment-resistant depression (TRD). Our team provides screening, administration, and monitoring in a calm, supportive environment to help improve mood and restore quality of life when other treatments haven\'t worked.'
+          ),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Services', url: '/services' },
+            { name: 'Spravato Therapy', url: '/services/spravato' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <div className="mb-10">
             <h3 className="text-2xl font-bold text-[#2D6762] mb-4">A Breakthrough for Treatment-Resistant Depression</h3>

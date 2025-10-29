@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Heart, Target, Users, ArrowRight } from 'lucide-react';
+import OptimizedImage from '@/components/OptimizedImage';
 
 const About = () => {
   const providers = [
@@ -108,7 +109,12 @@ const About = () => {
                 className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
               >
                 <div className="mb-4 aspect-square">
-                  <img alt={`${provider.name} - ${provider.title}`} className="rounded-lg object-cover w-full h-full" src={provider.img} />
+                  <OptimizedImage
+                    alt={`${provider.name} - ${provider.title}`}
+                    className="rounded-lg object-cover w-full h-full"
+                    src={provider.img}
+                    loading="lazy"
+                  />
                 </div>
                 <h3 className="text-xl font-bold text-[#2D6762] mb-2">{provider.name}</h3>
                 <p className="text-[#6D519D] font-semibold mb-4">{provider.title}</p>

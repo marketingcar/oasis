@@ -1,21 +1,43 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import SEO, { getArticleSchema, getBreadcrumbSchema } from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import OptimizedImage from '@/components/OptimizedImage';
 
 const Post2 = () => {
+  const heroImage = "https://images.unsplash.com/photo-1503410251743-18dd14ad12f5";
+  const title = "Mindfulness for Beginners: A Path to Inner Peace";
+  const description = "Discover the basics of mindfulness and how this simple practice can reduce stress, improve focus, and bring a sense of calm to your everyday life.";
+
   return (
     <>
-      <Helmet>
-        <title>Mindfulness for Beginners - Oasis Health Services Blog</title>
-        <meta name="description" content="Discover the basics of mindfulness and how this simple practice can reduce stress, improve focus, and bring a sense of calm to your everyday life." />
-      </Helmet>
+      <SEO
+        title={title}
+        description={description}
+        url="/blog/mindfulness-for-beginners"
+        image={heroImage}
+        type="article"
+        schema={[
+          getArticleSchema({
+            title: title,
+            description: description,
+            image: heroImage,
+            publishedAt: '2025-01-15T00:00:00.000Z',
+            updatedAt: '2025-01-15T00:00:00.000Z'
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Blog', url: '/blog' },
+            { name: title, url: '/blog/mindfulness-for-beginners' }
+          ])
+        ]}
+      />
 
       <div className="bg-white">
         <div className="relative">
           <div className="w-full h-64 md:h-96 bg-gradient-to-br from-[#6D519D] to-[#90AB98]">
-            <img className="w-full h-full object-cover opacity-30" alt="A serene natural landscape with soft light" src="https://images.unsplash.com/photo-1503410251743-18dd14ad12f5" />
+            <OptimizedImage className="w-full h-full object-cover opacity-30" alt="A serene natural landscape with soft light" src={heroImage} priority={true} />
           </div>
           <motion.div 
             className="absolute inset-0 flex items-center justify-center"

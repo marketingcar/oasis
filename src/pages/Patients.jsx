@@ -12,6 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import OptimizedImage from '@/components/OptimizedImage';
 
 const Patients = () => {
   const steps = [
@@ -134,7 +135,7 @@ const Patients = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
             {insurancePartners.map((partner, index) => (
               <motion.div key={partner.name} initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="flex items-center justify-center p-4 bg-gray-50 rounded-lg h-24 grayscale hover:grayscale-0 transition-all">
-                <img alt={partner.alt} className="max-h-12 object-contain" src={partner.logo} />
+                <OptimizedImage alt={partner.alt} className="max-h-12 object-contain" src={partner.logo} loading="lazy" />
               </motion.div>
             ))}
           </div>

@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { conditionsLinks } from '@/lib/navLinks';
+import SEO, { getBreadcrumbSchema } from '@/components/SEO';
 
 const DetailSection = ({ title, children }) => (
   <div className="mb-10">
@@ -45,6 +46,28 @@ const PersonalityDisorders = () => {
       navTitle="Conditions We Treat"
       pageType="conditions"
     >
+      <SEO
+        title="Personality Disorders Treatment"
+        description="Specialized therapy for personality disorders including Borderline, Obsessive-Compulsive, and Anti-Social personality disorders. Expert DBT and care."
+        url="/conditions/personality-disorders"
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'MedicalCondition',
+            name: 'Personality Disorders',
+            description: 'Specialized therapy for personality disorders including Borderline, Obsessive-Compulsive, and Anti-Social personality disorders.',
+            possibleTreatment: {
+              '@type': 'MedicalTherapy',
+              name: 'Psychiatric Treatment and Therapy'
+            }
+          },
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Conditions', url: '/conditions' },
+            { name: 'Personality Disorders', url: '/conditions/personality-disorders' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Overview">
           <p>These are enduring, inflexible patterns of cognition, affect, and behavior that deviate markedly from cultural expectations, causing significant distress and impairment in social, occupational, or other important areas of functioning.</p>

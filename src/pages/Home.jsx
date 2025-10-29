@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Heart, Brain, Users, Shield, CheckCircle, ArrowRight } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import SEO, { getOrganizationSchema } from '@/components/SEO';
+import OptimizedImage from '@/components/OptimizedImage';
 const Home = () => {
   const heroImages = [{
     src: 'https://horizons-cdn.hostinger.com/0bf89f29-e8e8-4300-9c8a-627c22f53622/72a4f4151125d938323fb2854f493120.jpg',
@@ -159,7 +160,13 @@ const Home = () => {
                   ease: "easeInOut"
                 }
               }}>
-                  <img className="rounded-xl shadow-2xl object-cover w-full h-full" alt={heroImages[currentImageIndex].alt} src={heroImages[currentImageIndex].src} />
+                  <OptimizedImage
+                    className="rounded-xl shadow-2xl object-cover w-full h-full"
+                    alt={heroImages[currentImageIndex].alt}
+                    src={heroImages[currentImageIndex].src}
+                    priority={currentImageIndex === 0}
+                    loading={currentImageIndex === 0 ? "eager" : "lazy"}
+                  />
                 </motion.div>
               </AnimatePresence>
             </motion.div>
@@ -194,7 +201,12 @@ const Home = () => {
           }} transition={{
             delay: index * 0.1
           }} className="flex items-center justify-center p-4 bg-gray-50 rounded-lg h-24 grayscale hover:grayscale-0 transition-all">
-                <img alt={partner.alt} className="max-h-12 object-contain" src={partner.logo} />
+                <OptimizedImage
+                  alt={partner.alt}
+                  className="max-h-12 object-contain"
+                  src={partner.logo}
+                  loading="lazy"
+                />
               </motion.div>)}
           </div>
 

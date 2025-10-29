@@ -1,21 +1,43 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import SEO, { getArticleSchema, getBreadcrumbSchema } from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import OptimizedImage from '@/components/OptimizedImage';
 
 const Post1 = () => {
+  const heroImage = "https://images.unsplash.com/photo-1602350558299-3e058bf4878d";
+  const title = "Understanding Anxiety and How to Cope";
+  const description = "Anxiety is a common human experience, but when it becomes overwhelming, it can impact your daily life. Learn about the different types of anxiety and effective coping strategies.";
+
   return (
     <>
-      <Helmet>
-        <title>Understanding Anxiety and How to Cope - Oasis Health Services Blog</title>
-        <meta name="description" content="Anxiety is a common human experience, but when it becomes overwhelming, it can impact your daily life. Learn about the different types of anxiety and effective coping strategies." />
-      </Helmet>
+      <SEO
+        title={title}
+        description={description}
+        url="/blog/understanding-anxiety-and-how-to-cope"
+        image={heroImage}
+        type="article"
+        schema={[
+          getArticleSchema({
+            title: title,
+            description: description,
+            image: heroImage,
+            publishedAt: '2025-01-15T00:00:00.000Z',
+            updatedAt: '2025-01-15T00:00:00.000Z'
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Blog', url: '/blog' },
+            { name: title, url: '/blog/understanding-anxiety-and-how-to-cope' }
+          ])
+        ]}
+      />
 
       <div className="bg-white">
         <div className="relative">
           <div className="w-full h-64 md:h-96 bg-gradient-to-br from-[#2D6762] to-[#69A08B]">
-            <img className="w-full h-full object-cover opacity-30" alt="Abstract representation of calming waves" src="https://images.unsplash.com/photo-1602350558299-3e058bf4878d" />
+            <OptimizedImage className="w-full h-full object-cover opacity-30" alt="Abstract representation of calming waves" src={heroImage} priority={true} />
           </div>
           <motion.div 
             className="absolute inset-0 flex items-center justify-center"

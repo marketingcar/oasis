@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { conditionsLinks } from '@/lib/navLinks';
+import SEO, { getBreadcrumbSchema } from '@/components/SEO';
 
 const DetailSection = ({ title, children }) => (
   <div className="mb-10">
@@ -45,6 +46,28 @@ const NeurodevelopmentalDisorders = () => {
       navTitle="Conditions We Treat"
       pageType="conditions"
     >
+      <SEO
+        title="Neurodevelopmental Disorders Treatment"
+        description="Comprehensive care for ADHD and Autism Spectrum Disorder. Expert assessment, therapy, and medication management for neurodevelopmental conditions."
+        url="/conditions/neurodevelopmental-disorders"
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'MedicalCondition',
+            name: 'Neurodevelopmental Disorders',
+            description: 'Comprehensive care for ADHD and Autism Spectrum Disorder including assessment, therapy, and medication management.',
+            possibleTreatment: {
+              '@type': 'MedicalTherapy',
+              name: 'Psychiatric Treatment and Therapy'
+            }
+          },
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Conditions', url: '/conditions' },
+            { name: 'Neurodevelopmental Disorders', url: '/conditions/neurodevelopmental-disorders' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Overview">
           <p>These are lifelong conditions that typically begin in childhood and affect attention, executive function, and social communication. They represent differences in brain development that lead to unique strengths and challenges.</p>

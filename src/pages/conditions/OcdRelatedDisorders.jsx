@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { conditionsLinks } from '@/lib/navLinks';
+import SEO, { getBreadcrumbSchema } from '@/components/SEO';
 
 const DetailSection = ({ title, children }) => (
   <div className="mb-10">
@@ -45,6 +46,28 @@ const OcdRelatedDisorders = () => {
       navTitle="Conditions We Treat"
       pageType="conditions"
     >
+      <SEO
+        title="OCD & Related Disorders Treatment"
+        description="Specialized treatment for OCD, Body Dysmorphic Disorder, and Hoarding Disorder. Expert therapy including ERP and medication management."
+        url="/conditions/ocd-related-disorders"
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'MedicalCondition',
+            name: 'Obsessive-Compulsive & Related Disorders',
+            description: 'Specialized treatment for OCD, Body Dysmorphic Disorder, and Hoarding Disorder including ERP therapy and medication management.',
+            possibleTreatment: {
+              '@type': 'MedicalTherapy',
+              name: 'Psychiatric Treatment and Therapy'
+            }
+          },
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Conditions', url: '/conditions' },
+            { name: 'OCD & Related Disorders', url: '/conditions/ocd-related-disorders' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Overview">
           <p>This group of disorders involves intrusive thoughts (obsessions) or preoccupations, which lead to repetitive behaviors (compulsions) or mental acts. While these compulsions provide short-term relief, they ultimately sustain and worsen the impairment over time.</p>

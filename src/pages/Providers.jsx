@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Users, FileText, ArrowRight } from 'lucide-react';
+import OptimizedImage from '@/components/OptimizedImage';
 const Providers = () => {
   return <>
       <Helmet>
@@ -66,7 +67,7 @@ const Providers = () => {
           }} viewport={{
             once: true
           }}>
-              <img alt="Healthcare providers collaborating on patient care" src="https://horizons-cdn.hostinger.com/0bf89f29-e8e8-4300-9c8a-627c22f53622/img_5295-OC9dF.jpeg" />
+              <OptimizedImage alt="Healthcare providers collaborating on patient care" src="https://horizons-cdn.hostinger.com/0bf89f29-e8e8-4300-9c8a-627c22f53622/img_5295-OC9dF.jpeg" loading="lazy" />
             </motion.div>
           </div>
         </div>

@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { conditionsLinks } from '@/lib/navLinks';
+import SEO, { getBreadcrumbSchema } from '@/components/SEO';
 
 const DetailSection = ({ title, children }) => (
   <div className="mb-10">
@@ -44,6 +45,28 @@ const AnxietyDisorders = () => {
       navTitle="Conditions We Treat"
       pageType="conditions"
     >
+      <SEO
+        title="Anxiety Disorders Treatment"
+        description="Comprehensive treatment for anxiety disorders including generalized anxiety, panic disorder, social anxiety, and phobias. Expert psychiatric care and therapy."
+        url="/conditions/anxiety-disorders"
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'MedicalCondition',
+            name: 'Anxiety Disorders',
+            description: 'Comprehensive treatment for anxiety disorders including generalized anxiety, panic disorder, social anxiety, and phobias.',
+            possibleTreatment: {
+              '@type': 'MedicalTherapy',
+              name: 'Psychiatric Treatment and Therapy'
+            }
+          },
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Conditions', url: '/conditions' },
+            { name: 'Anxiety Disorders', url: '/conditions/anxiety-disorders' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Overview">
           <p>Pathological fear and worry that impairs work, school, or relationships. Anxiety becomes a disorder when it's excessive, persistent, and disruptive to daily life, going beyond normal stress reactions.</p>

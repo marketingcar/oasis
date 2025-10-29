@@ -9,7 +9,11 @@
     "build:seo": "node tools/build-seo.js",
     "build:vite": "vite build",
     "build:post": "node tools/post-build.js",
-    "preview": "vite preview --host :: --port 3000"
+    "preview": "vite preview --host :: --port 3000",
+    "generate:llms": "node tools/generate-llms.js",
+    "generate:sitemap": "node tools/generate-sitemap.js",
+    "generate:robots": "node tools/generate-robots.js",
+    "generate:blog": "node tools/generate-blog-data.js"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.3.1",

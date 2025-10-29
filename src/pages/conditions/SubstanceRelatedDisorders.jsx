@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { conditionsLinks } from '@/lib/navLinks';
+import SEO, { getBreadcrumbSchema } from '@/components/SEO';
 
 const DetailSection = ({ title, children }) => (
   <div className="mb-10">
@@ -45,6 +46,28 @@ const SubstanceRelatedDisorders = () => {
       navTitle="Conditions We Treat"
       pageType="conditions"
     >
+      <SEO
+        title="Substance Use Disorder Treatment"
+        description="Compassionate treatment for substance use and addictive disorders. Harm reduction approach with MAT, therapy, and comprehensive support."
+        url="/conditions/substance-related-disorders"
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'MedicalCondition',
+            name: 'Substance-Related & Addictive Disorders',
+            description: 'Compassionate treatment for substance use and addictive disorders with harm reduction, MAT, and therapy.',
+            possibleTreatment: {
+              '@type': 'MedicalTherapy',
+              name: 'Psychiatric Treatment and Therapy'
+            }
+          },
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Conditions', url: '/conditions' },
+            { name: 'Substance-Related Disorders', url: '/conditions/substance-related-disorders' }
+          ])
+        ]}
+      />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <DetailSection title="Overview">
           <p>These disorders involve the compulsive use of a substance or engagement in a behavior (like gambling) despite significant harm to one's health, relationships, and life roles. Key features include intense cravings, loss of control, and often tolerance and withdrawal.</p>
