@@ -1,6 +1,6 @@
 
 import React from 'react';
-    import { Routes, Route } from 'react-router-dom';
+    import { Routes, Route, Navigate } from 'react-router-dom';
     import Layout from '@/components/Layout';
     import Home from '@/pages/Home';
     import About from '@/pages/About';
@@ -84,6 +84,17 @@ import React from 'react';
             <Route path="/services/asd" element={<AutismAssessment />} />
             <Route path="/services/sud" element={<SubstanceRelatedDisorders />} />
             <Route path="/services/rpm" element={<Rpm />} />
+
+            {/* Custom redirects */}
+            <Route path="/landing-page/virtual-medication-management" element={<Navigate to="/services/medication-management" replace />} />
+            <Route path="/assessment" element={<Navigate to="/start" replace />} />
+            <Route path="/book-appointment" element={<Navigate to="/start" replace />} />
+            <Route path="/our-team" element={<Navigate to="/about" replace />} />
+            <Route path="/contact-us" element={<Navigate to="/contact" replace />} />
+            <Route path="/cost-of-care" element={<Navigate to="/contact" replace />} />
+
+            {/* Catch-all route - redirect all 404s to homepage */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Layout>
       );

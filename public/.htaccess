@@ -1,14 +1,26 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  # Specific redirects (301 permanent redirects)
+  RewriteRule ^landing-page/virtual-medication-management/?$ /services/medication-management [R=301,L]
+  RewriteRule ^assessment/?$ /start [R=301,L]
+  RewriteRule ^book-appointment/?$ /start [R=301,L]
+  RewriteRule ^our-team/?$ /about [R=301,L]
+  RewriteRule ^contact-us/?$ /contact [R=301,L]
+  RewriteRule ^cost-of-care/?$ /contact [R=301,L]
+
+  # SPA routing - serve index.html for existing files
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !^/index\.html$
   RewriteRule ^ index.html [L]
 </IfModule>
 
-<IfModule mod_headers.c>
-  Header set X-Powered-By "Hostinger Horizons"
+# Custom 404 Error Document - redirect to homepage
+ErrorDocument 404 /index.html
 
+<IfModule mod_headers.c>
   # Cache everything on CDN by default
   Header set Cache-Control "public, s-maxage=604800, max-age=0"
   
